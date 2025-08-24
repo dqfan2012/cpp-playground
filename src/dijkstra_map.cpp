@@ -16,19 +16,19 @@
 #include <queue>
 #include <vector>
 
-const int kGridWidth = 42;          // Width of the grid
-const int kGridHeight = 25;         // Height of the grid
-const int kWallBorder = 0;          // Border index for walls
-const int kWallValue = -1;          // Value representing a wall in the grid
-const int kUnreachable = 999;       // Value representing an unreachable cell
-const size_t kPlayerStartX = 5;     // Player's starting X position
-const size_t kPlayerStartY = 5;     // Player's starting Y position
+const int kGridWidth = 42;      // Width of the grid
+const int kGridHeight = 25;     // Height of the grid
+const int kWallBorder = 0;      // Border index for walls
+const int kWallValue = -1;      // Value representing a wall in the grid
+const int kUnreachable = 999;   // Value representing an unreachable cell
+const size_t kPlayerStartX = 5; // Player's starting X position
+const size_t kPlayerStartY = 5; // Player's starting Y position
 
 /**
- * Distance the player is from their starting position.
- * This value is used to calculate the distance from the starting position to every other cell.
+ * Distance of the player's current cell from itself.
+ * This value is used to calculate the distance from the current position to every other cell.
  */
-const int kPlayerStartDistance = 0;
+const int kPlayerCurrentCellDistance = 0;
 
 struct Cell {
   size_t x, y;
@@ -40,7 +40,7 @@ void printGrid(const std::vector<std::vector<int>> &grid) {
     for (size_t j = 0; j < grid[0].size(); ++j) {
       if (grid[i][j] == kWallValue) {
         std::cout << " # ";
-      } else if (grid[i][j] == kPlayerStartDistance) {
+      } else if (grid[i][j] == kPlayerCurrentCellDistance) {
         std::cout << " @ ";
       } else if (grid[i][j] == kUnreachable) {
         std::cout << "   ";
@@ -70,8 +70,8 @@ int main() {
       }
     }
   }
-  // Set the player's starting position distance to kPlayerStartDistance
-  grid[start.y][start.x] = kPlayerStartDistance;
+  // Set the player's starting position distance to kPlayerCurrentCellDistance
+  grid[start.y][start.x] = kPlayerCurrentCellDistance;
 
   // Implement Dijkstra's Map Algorithm (Breadth-First search)
   std::queue<Cell> cell_queue;
