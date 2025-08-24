@@ -52,7 +52,7 @@ void printGrid(const std::vector<std::vector<int>> &grid) {
     std::cout << '\n';
   }
 }
-}  // namespace
+}
 
 int main() {
   // Define the Grid data structure
