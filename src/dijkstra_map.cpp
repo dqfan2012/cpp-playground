@@ -16,12 +16,19 @@
 #include <queue>
 #include <vector>
 
-const int kGridWidth = 42;
-const int kGridHeight = 25;
-const int kWallValue = -1;
-const int kUnreachable = 999;
-const size_t kPlayerStartX = 5;
-const size_t kPlayerStartY = 5;
+const int kGridWidth = 42;          // Width of the grid
+const int kGridHeight = 25;         // Height of the grid
+const int kWallBorder = 0;          // Border index for walls
+const int kWallValue = -1;          // Value representing a wall in the grid
+const int kUnreachable = 999;       // Value representing an unreachable cell
+const size_t kPlayerStartX = 5;     // Player's starting X position
+const size_t kPlayerStartY = 5;     // Player's starting Y position
+
+/**
+ * Distance the player is from their starting position.
+ * This value is used to calculate the distance from the starting position to every other cell.
+ */
+const int kPlayerStartDistance = 0;
 
 struct Cell {
   size_t x, y;
@@ -33,7 +40,7 @@ void printGrid(const std::vector<std::vector<int>> &grid) {
     for (size_t j = 0; j < grid[0].size(); ++j) {
       if (grid[i][j] == kWallValue) {
         std::cout << " # ";
-      } else if (grid[i][j] == 0) {
+      } else if (grid[i][j] == kPlayerStartDistance) {
         std::cout << " @ ";
       } else if (grid[i][j] == kUnreachable) {
         std::cout << "   ";
@@ -58,13 +65,13 @@ int main() {
   // Initialize the grid with the border and the character
   for (size_t i = 0; i < grid.size(); ++i) {
     for (size_t j = 0; j < grid[0].size(); ++j) {
-      if (i == 0 || i == grid.size() - 1 || j == 0 || j == grid[0].size() - 1) {
+      if (i == kWallBorder || i == grid.size() - 1 || j == kWallBorder || j == grid[0].size() - 1) {
         grid[i][j] = kWallValue;
       }
     }
   }
-  // Set the player's starting position distance to 0
-  grid[start.y][start.x] = 0;
+  // Set the player's starting position distance to kPlayerStartDistance
+  grid[start.y][start.x] = kPlayerStartDistance;
 
   // Implement Dijkstra's Map Algorithm (Breadth-First search)
   std::queue<Cell> cell_queue;
